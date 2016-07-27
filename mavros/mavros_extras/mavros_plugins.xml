@@ -1,0 +1,12 @@
+<library path="lib/libmavros_extras">
+
+        <class name="sonar_distance" type="mavplugin::SonarDistancePlugin" base_class_type="mavplugin::MavRosPlugin">
+		<description>Writtren by Clarence Chan for sonar value</description>
+	</class>
+
+        <class name="laser_distance" type="mavplugin::LaserDistancePlugin" base_class_type="mavplugin::MavRosPlugin">
+		<description>Writtren by Clarence Chan for laser value</description>
+	</class>
+
+
+</library>

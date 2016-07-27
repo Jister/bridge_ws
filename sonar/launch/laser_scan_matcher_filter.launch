@@ -1,0 +1,26 @@
+<launch>
+  <node pkg="hokuyo_node" name="hokuyo" type="hokuyo_node" respawn="false" output="screen">
+    <param name="calibrate_time" type="bool" value="false"/>
+    <param name="port" type="string" value="/dev/ttyACM0"/>
+    <param name="intensity" type="bool" value="false"/>
+    <param name="min_ang" type="double" value="-2.2689" />
+    <param name="max_ang" type="double" value="2.2689" />
+  </node> 
+  
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser"
+    args="0.0 0.0 0.0 0.0 0.0 0.0 /base_link /laser 40" />
+
+  <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
+    <rosparam command="load" file="$(find sonar)/launch/my_laser_config.yaml" />
+  </node>
+
+  <node pkg="laser_scan_matcher" type="laser_scan_matcher_node"
+    name="laser_scan_matcher_node" output="screen">
+    <param name="use_alpha_beta" value="true"/>
+    <param name="fixed_frame" value = "odom"/>
+    <param name="max_iterations" value="10"/>
+    <param name="use_imu" value="true"/>
+  </node>
+
+</launch>
+

@@ -1,0 +1,19 @@
+<launch>
+  <node pkg="sonar" name="sonar_node" type="sonar_node" />
+  <node pkg="sonar" name="data_handle" type="date_handle" />
+
+  <node pkg="hokuyo_node" name="hokuyo" type="hokuyo_node" respawn="false" output="screen">
+    <param name="calibrate_time" type="bool" value="false"/>
+    <param name="port" type="string" value="/dev/ttyACM0"/>
+    <param name="intensity" type="bool" value="false"/>
+  </node> 
+ 
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser"
+    args="0.0 0.0 0.0 0.0 0.0 0.0 /base_link /laser 40" />
+
+  <node pkg="laser_scan_matcher" type="laser_scan_matcher_node" name="laser_scan_matcher_node" output="screen">
+    <param name="fix_frame" value="odom"/>
+    <param name="max_iterations" value="10"/>
+  </node>  
+</launch>
+

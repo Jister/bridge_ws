@@ -1,0 +1,10 @@
+<launch> 
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser"
+    args="0.0 0.0 0.0 0.0 0.0 0.0 /base_link /laser 40" />
+
+  <node pkg="laser_scan_matcher" type="laser_scan_matcher_node" name="laser_scan_matcher_node" output="screen">
+    <param name="fix_frame" value="odom"/>
+    <param name="max_iterations" value="10"/>
+  </node>  
+</launch>
+
