@@ -17,7 +17,7 @@ using namespace Eigen;
 void chatterCallback_local_position(const geometry_msgs::PoseStamped &msg);
 void chatterCallback_mode(const mavros::State &msg);
 void chatterCallback_receive_setpoint_raw(const mavros_extras::PositionSetpoint &msg);
-void chatterCallback_extra_function(const mavros_extras::ExtraFunctionReceiver &msg);
+//void chatterCallback_extra_function(const mavros_extras::ExtraFunctionReceiver &msg);
 void chatterCallback_obstacle(const mavros_extras::LaserDistance &msg);  //add by CJ
 void chatterCallback_ground_distance(const leddar_one::Leddar &msg);  //add by CJ
 void rotate(float yaw, const Vector3f& input, Vector3f& output);   //add by CJ
@@ -140,7 +140,7 @@ int main(int argc, char **argv)
 	ros::Subscriber setpoint_sub = nh.subscribe("/offboard/setpoints_raw", 2, chatterCallback_receive_setpoint_raw);
 	ros::Subscriber localposition_sub = nh.subscribe("/mavros/local_position/local", 2,chatterCallback_local_position);
 	ros::Subscriber mode_sub = nh.subscribe("/mavros/state", 1,chatterCallback_mode);
-	ros::Subscriber extrafunction_sub = nh.subscribe("/mavros/extra_function_receiver/extra_function_receiver", 1,chatterCallback_extra_function);
+	//ros::Subscriber extrafunction_sub = nh.subscribe("/mavros/extra_function_receiver/extra_function_receiver", 1,chatterCallback_extra_function);
 	ros::Subscriber obstacle_sub = nh.subscribe("/laser_send",1,chatterCallback_obstacle);
 	ros::Subscriber ground_distance_sub = nh.subscribe("/ground_distance",1,chatterCallback_ground_distance);
 	
@@ -799,19 +799,19 @@ float posPlan(float max_jerk, float max_acc, float t,
 	return pos;
 }
 
-void chatterCallback_extra_function(const mavros_extras::ExtraFunctionReceiver &msg)
-{
-	if(msg.obs_avoid_enable != 0)  obstacle_avoid_enable = true;
-	else obstacle_avoid_enable = false;
+// void chatterCallback_extra_function(const mavros_extras::ExtraFunctionReceiver &msg)
+// {
+// 	if(msg.obs_avoid_enable != 0)  obstacle_avoid_enable = true;
+// 	else obstacle_avoid_enable = false;
 
-	if(msg.obs_avoid_enable == 1)  obstacle_avoid_auto_enable = false; 
-	if(msg.obs_avoid_enable ==2)  obstacle_avoid_auto_enable = true;
+// 	if(msg.obs_avoid_enable == 1)  obstacle_avoid_auto_enable = false; 
+// 	if(msg.obs_avoid_enable ==2)  obstacle_avoid_auto_enable = true;
 
-	if(msg.laser_height_enable == 1) laser_fly_height_enable = true;
-	else laser_fly_height_enable = false;
+// 	if(msg.laser_height_enable == 1) laser_fly_height_enable = true;
+// 	else laser_fly_height_enable = false;
 
-    	if(msg.add_two > 0 && msg.add_two < 10 && !ploylines_flying){ MAX_v = msg.add_two;} //ROS_INFO("max speed = %f", MAX_v);}
-}
+//     	if(msg.add_two > 0 && msg.add_two < 10 && !ploylines_flying){ MAX_v = msg.add_two;} //ROS_INFO("max speed = %f", MAX_v);}
+// }
 
 //Subscribe obstacle msg by CJ
 void chatterCallback_obstacle(const mavros_extras::LaserDistance &msg)
