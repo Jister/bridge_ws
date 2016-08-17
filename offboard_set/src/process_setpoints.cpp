@@ -8,6 +8,7 @@
 #include "Eigen/Dense"
 #include "std_msgs/String.h"   //new
 #include "std_msgs/Float32.h"
+#include "leddar_one/Leddar.h"
 #define Pi 3.141592653
 #define ERROR_LIMIT 0.3
 #define LOOP_RATE_PLAN 10
@@ -18,7 +19,7 @@ void chatterCallback_mode(const mavros::State &msg);
 void chatterCallback_receive_setpoint_raw(const mavros_extras::PositionSetpoint &msg);
 void chatterCallback_extra_function(const mavros_extras::ExtraFunctionReceiver &msg);
 void chatterCallback_obstacle(const mavros_extras::LaserDistance &msg);  //add by CJ
-void chatterCallback_crop_distance(const std_msgs::Float32 &msg);  //add by CJ
+void chatterCallback_ground_distance(const leddar_one::Leddar &msg);  //add by CJ
 void rotate(float yaw, const Vector3f& input, Vector3f& output);   //add by CJ
 void obstacle_avoid_trajectory_generation(const Vector3f& current_pos, const Vector3f& next_pos, Matrix<float, 4, 2> trajectory_matrix);
 
@@ -141,7 +142,7 @@ int main(int argc, char **argv)
 	ros::Subscriber mode_sub = nh.subscribe("/mavros/state", 1,chatterCallback_mode);
 	ros::Subscriber extrafunction_sub = nh.subscribe("/mavros/extra_function_receiver/extra_function_receiver", 1,chatterCallback_extra_function);
 	ros::Subscriber obstacle_sub = nh.subscribe("/laser_send",1,chatterCallback_obstacle);
-	ros::Subscriber crop_distance_sub = nh.subscribe("/crop_dist",1,chatterCallback_crop_distance);
+	ros::Subscriber ground_distance_sub = nh.subscribe("/ground_distance",1,chatterCallback_ground_distance);
 	
 	ros::Rate loop_rate(LOOP_RATE_PLAN);
 
@@ -875,7 +876,7 @@ void chatterCallback_obstacle(const mavros_extras::LaserDistance &msg)
 }
 
 //Subscribe crop distance msg by CJ
-void chatterCallback_crop_distance(const std_msgs::Float32 &msg)
+void chatterCallback_ground_distance(const leddar_one::Leddar &msg)
 {
 	if(msg.data <= -1.5)
 	{
@@ -884,7 +885,7 @@ void chatterCallback_crop_distance(const std_msgs::Float32 &msg)
 	{
 		obstacle_avoid_height_enable = false;
 	}
-	laser_height = -msg.data;
+	laser_height = -msg.distance.data;
 
 	lidar_counter += 1;
 	if(lidar_counter > 20)

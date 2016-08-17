@@ -11,7 +11,7 @@ int main(int argc, char **argv)
 {
 	ros::init(argc, argv, "leddar_node");
 	ros::NodeHandle n;
-	ros::Publisher pub = n.advertise<leddar_one::Leddar>("/leddar", 1000);
+	ros::Publisher pub = n.advertise<leddar_one::Leddar>("/ground_distance", 1000);
 	ros::Rate loop_rate(20);
 
 	char sPortName[LT_MAX_PORT_NAME_LEN] = "ttyUSB0";
