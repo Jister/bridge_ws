@@ -57,6 +57,10 @@ add_message_files(
   CamIMUStamp.msg
   SonarDistance.msg
   LaserDistance.msg
+  OffboardRoutePoints.msg
+  OffboardRoutePointsConfirm.msg
+  ExtraFunctionReceiver.msg
+  PositionSetpoint.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -123,6 +127,9 @@ add_library(mavros_extras
   #src/plugins/sonar_receiver.cpp
   src/plugins/laser_distance.cpp
   #src/plugins/laser_receiver.cpp
+  src/plugins/offboard_route_points_receiver.cpp
+  src/plugins/offboard_route_points_confirm.cpp
+  src/plugins/extra_function_receiver.cpp
 )
 add_dependencies(mavros_extras
   mavros_extras_generate_messages_cpp
