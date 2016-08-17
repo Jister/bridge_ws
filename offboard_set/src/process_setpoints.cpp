@@ -5,7 +5,6 @@
 #include "mavros/State.h"
 #include "mavros_extras/ExtraFunctionReceiver.h"
 #include "mavros_extras/LaserDistance.h"
-#include "mavros_extras/FlyDirection.h"
 #include "Eigen/Dense"
 #include "std_msgs/String.h"   //new
 #include "std_msgs/Float32.h"
@@ -20,7 +19,6 @@ void chatterCallback_receive_setpoint_raw(const mavros_extras::PositionSetpoint 
 void chatterCallback_extra_function(const mavros_extras::ExtraFunctionReceiver &msg);
 void chatterCallback_obstacle(const mavros_extras::LaserDistance &msg);  //add by CJ
 void chatterCallback_crop_distance(const std_msgs::Float32 &msg);  //add by CJ
-void chatterCallback_fly_direction(const mavros_extras::FlyDirection &msg);  //add by CJ
 void rotate(float yaw, const Vector3f& input, Vector3f& output);   //add by CJ
 void obstacle_avoid_trajectory_generation(const Vector3f& current_pos, const Vector3f& next_pos, Matrix<float, 4, 2> trajectory_matrix);
 
@@ -144,7 +142,6 @@ int main(int argc, char **argv)
 	ros::Subscriber extrafunction_sub = nh.subscribe("/mavros/extra_function_receiver/extra_function_receiver", 1,chatterCallback_extra_function);
 	ros::Subscriber obstacle_sub = nh.subscribe("/laser_send",1,chatterCallback_obstacle);
 	ros::Subscriber crop_distance_sub = nh.subscribe("/crop_dist",1,chatterCallback_crop_distance);
-	ros::Subscriber fly_direction_sub = nh.subscribe("/offboard/direction", 1,chatterCallback_fly_direction);
 	
 	ros::Rate loop_rate(LOOP_RATE_PLAN);
 
@@ -901,12 +898,6 @@ void chatterCallback_crop_distance(const std_msgs::Float32 &msg)
 		lidar_counter = 0;
 	}
 	height_lidar_check_flag = true;
-}
-
-//Subscribe fly direction by CJ
-void chatterCallback_fly_direction(const mavros_extras::FlyDirection &msg)
-{
-	fly_direction = msg.direction;
 }
 
 //rotate function
