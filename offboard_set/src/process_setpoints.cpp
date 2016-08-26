@@ -878,13 +878,6 @@ void chatterCallback_obstacle(const mavros_extras::LaserDistance &msg)
 //Subscribe crop distance msg by CJ
 void chatterCallback_ground_distance(const leddar_one::Leddar &msg)
 {
-	if(msg.data <= -1.5)
-	{
-		obstacle_avoid_height_enable = true;
-	}else
-	{
-		obstacle_avoid_height_enable = false;
-	}
 	laser_height = -msg.distance.data;
 
 	lidar_counter += 1;
