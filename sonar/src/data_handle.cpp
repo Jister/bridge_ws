@@ -24,8 +24,8 @@ private:
 
 DataHandle::DataHandle()
 {
-	ground_distance_sub = n.subscribe("/ground_distance", 1, &FindContour::ground_distance_Callback,this);
-	bridge_distance_sub = n.subscribe("/lidar_distance", 1, &FindContour::bridge_distance_Callback,this);
+	ground_distance_sub = n.subscribe("/ground_distance", 1, &DataHandle::ground_distance_Callback,this);
+	bridge_distance_sub = n.subscribe("/lidar_distance", 1, &DataHandle::bridge_distance_Callback,this);
 	data_pub = n.advertise<mavros_extras::SonarDistance>("/sonar_send",1);
 }
 
