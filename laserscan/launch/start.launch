@@ -6,7 +6,7 @@
     <param name="min_ang" type="double" value="-2.2689" />
     <param name="max_ang" type="double" value="2.2689" />
   </node> 
-  <node pkg="laserscan" name="scan_to_cloud" type="scan_to_cloud" />
+  <node pkg="laserscan" name="find_position" type="find_position" />
   <node pkg="laserscan" name="find_min_distance" type="find_min_distance" />
   <node pkg="lidar_lite_ros" name="lidarlite_node" type="lidarlite_node" />
   <node pkg="sonar" name="data_handle" type="data_handle" />
